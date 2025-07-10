@@ -13,6 +13,7 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { SocialLogins } from "./soial-logins";
+import Image from "next/image";
 
 
 const SignUpSchema = z.object({
@@ -148,7 +149,7 @@ const SignUpView = () => {
           </form>
         </Form>
         <div className="bg-radial from-sidebar-accent to-sidebar relative hidden md:flex flex-col gap-y-4 items-center justify-center">
-          <img src="/logo.svg" alt="Logo" className="h-[92px] w-[92px]" />
+          <Image src="/logo.svg" priority alt="Logo" width={92} height={92} className="w-[92px] h-[92px]" />
           <p className="text-2xl font-semibold text-white">Meet.AI</p>
         </div>
       </CardContent>
