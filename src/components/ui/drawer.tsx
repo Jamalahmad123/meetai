@@ -29,12 +29,15 @@ function DrawerClose({
   return <DrawerPrimitive.Close data-slot="drawer-close" {...props} />
 }
 
+
+
 function DrawerOverlay({
   className,
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Overlay>) {
   return (
     <DrawerPrimitive.Overlay
+      id="drawer-close"
       data-slot="drawer-overlay"
       className={cn(
         "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50",
@@ -43,6 +46,9 @@ function DrawerOverlay({
       {...props}
     />
   )
+}
+function closeDrawer() {
+  document.getElementById("drawer-close")?.click()
 }
 
 function DrawerContent({
@@ -132,4 +138,5 @@ export {
   DrawerFooter,
   DrawerTitle,
   DrawerDescription,
+  closeDrawer
 }
