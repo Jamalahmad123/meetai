@@ -2,6 +2,7 @@
 "use client"
 
 import NewAgentDialog from "./new-agent-dialog"
+import { AgentsSearchFilter } from "./agents-search-filter"
 
 
 const AgentsHeader = () => {
@@ -11,6 +12,7 @@ const AgentsHeader = () => {
         <h5 className="font-medium text-xl">My Agents</h5>
         <NewAgentDialog />
       </div>
+      <AgentsSearchFilter />
     </div>
   )
 }
