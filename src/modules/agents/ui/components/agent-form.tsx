@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button"
 import { useTRPC } from "@/trpc/client"
 import { toast } from "sonner"
 import { closeDialog } from "@/components/ui/dialog"
-import { closeDrawer } from "@/components/ui/drawer"
 
 
 type AgentFormProps = {
@@ -32,6 +31,25 @@ export const AgentForm = ({ initialValues }: AgentFormProps) => {
           trpc.agents.getMany.queryOptions(),
 
         )
+        // TODO: invalidateQueries for free tier
+        closeDialog();
+        toast.success("Agent created successfully")
+      },
+      onError: (error) => {
+        toast.error(error.message)
+
+        // TODO: check if error code is "FORBIDDEN", redirect to "/upgrade"
+      }
+    })
+  )
+
+  const updateAgent = useMutation(
+    trpc.agents.update.mutationOptions({
+      onSuccess: () => {
+        queryClient.invalidateQueries(
+          trpc.agents.getMany.queryOptions(),
+
+        )
 
 
         if (isEdit) {
@@ -41,9 +59,8 @@ export const AgentForm = ({ initialValues }: AgentFormProps) => {
             })
           )
         }
-        closeDrawer();
         closeDialog();
-        toast.success("Agent created successfully")
+        toast.success("Agent updated successfully")
       },
       onError: (error) => {
         toast.error(error.message)
@@ -62,11 +79,11 @@ export const AgentForm = ({ initialValues }: AgentFormProps) => {
   })
 
 
-  const isPending = createAgent.isPending
+  const isPending = createAgent.isPending || updateAgent.isPending
 
   const onSubmit = (data: AgentInsertType) => {
     if (isEdit) {
-
+      updateAgent.mutate({ ...data, id: initialValues.id })
       return;
     }
 
@@ -105,7 +122,7 @@ export const AgentForm = ({ initialValues }: AgentFormProps) => {
             )}
           />
           <div className="flex items-end justify-end">
-            <Button>
+            <Button disabled={isPending}>
               {isEdit ? "Update" : "Create"}
             </Button>
           </div>

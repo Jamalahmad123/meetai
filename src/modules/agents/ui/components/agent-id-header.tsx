@@ -1,19 +1,21 @@
+import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MoreVerticalIcon, PencilIcon, TrashIcon } from "lucide-react";
 import Link from "next/link";
+import { DeleteAgentAlert } from "./delete-agent-alert";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { EditAgentDialog } from "./edit-agent-dialog";
+import { AgentGetOne } from "../../types";
 
 
 
 interface Props {
-  agentId: string;
-  agentName: string;
-  onEdit: () => void;
-  onRemove: () => void;
+  agent: AgentGetOne
 }
 
-export const AgentIdHeader = ({ agentId, agentName, onEdit, onRemove }: Props) => {
+export const AgentIdHeader = ({ agent }: Props) => {
   return (
     <div className="flex items-center justify-between">
       <Breadcrumb>
@@ -26,28 +28,38 @@ export const AgentIdHeader = ({ agentId, agentName, onEdit, onRemove }: Props) =
           <BreadcrumbSeparator className="text-foreground text-xl font-medium [&>svg]:size-4" />
           <BreadcrumbItem>
             <BreadcrumbLink asChild className="font-medium text-xl text-foreground">
-              <Link href={`/agents/${agentId}`}>{agentName}</Link>
+              <Link href={`/agents/${agent.id}`}>{agent.name}</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <DropdownMenu modal={false}>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost">
-            <MoreVerticalIcon />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={onEdit}>
-            <PencilIcon className="size-4 text-black" />
-            Edit
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={onRemove}>
-            <TrashIcon className="size-4 text-black" />
-            Delete
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <Dialog>
+        <AlertDialog>
+          <DropdownMenu modal={false}>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost">
+                <MoreVerticalIcon />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DialogTrigger asChild>
+                <DropdownMenuItem>
+                  <PencilIcon className="size-4 text-black" />
+                  Edit
+                </DropdownMenuItem>
+              </DialogTrigger>
+              <AlertDialogTrigger asChild>
+                <DropdownMenuItem>
+                  <TrashIcon className="size-4 text-black" />
+                  Delete
+                </DropdownMenuItem>
+              </AlertDialogTrigger>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DeleteAgentAlert agentId={agent.id} isViewPage={true} />
+        </AlertDialog>
+        <EditAgentDialog agent={agent} />
+      </Dialog>
     </div>
   )
 }

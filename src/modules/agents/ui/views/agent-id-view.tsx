@@ -12,7 +12,9 @@ interface Props {
 }
 
 export const AgentIdView = ({ agentId }: Props) => {
+
   const trpc = useTRPC();
+
 
   const { data } = useSuspenseQuery(
     trpc.agents.getOne.queryOptions({ id: agentId })
@@ -21,10 +23,7 @@ export const AgentIdView = ({ agentId }: Props) => {
   return (
     <div className="flex flex-col flex-1 gap-y-4 px-4 py-4 md:px-8">
       <AgentIdHeader
-        agentId={data.id}
-        agentName={data.name}
-        onEdit={() => { }}
-        onRemove={() => { }}
+        agent={data}
       />
       <div className="bg-white rounded-lg border">
         <div className="px-4 py-5 gap-y-5 flex flex-col col-span-5">
