@@ -3,8 +3,14 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { AgentGetOne } from "../../types"
 import { GeneratedAvatar } from "@/components/generated-avatar"
-import { CornerRightDownIcon, VideoIcon } from "lucide-react"
+import { CornerRightDownIcon, MoreHorizontal, VideoIcon } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { useState } from "react"
+import { Dialog, DialogTrigger } from "@/components/ui/dialog"
+import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export const columns: ColumnDef<AgentGetOne>[] = [
   {
@@ -32,5 +38,56 @@ export const columns: ColumnDef<AgentGetOne>[] = [
         {row.original.meetingCount} {row.original.meetingCount === 1 ? "meeting" : "meetings"}
       </Badge>
     )
-  }
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <ActionsRow agent={row.original} />,
+    size: 40,
+  },
 ]
+
+type DialogType = "None" | "Delete" | "Edit"
+
+const ActionsRow = ({ agent }: { agent: AgentGetOne }) => {
+  const [dialogType, setDialogType] = useState<DialogType>("None");
+
+  const handleDialogType = (type: DialogType) => setDialogType(type);
+
+
+  return (
+    <Dialog>
+      <AlertDialog>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-40">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link href={`/agents/${agent.id}`}>
+                View
+              </Link>
+            </DropdownMenuItem>
+            <DialogTrigger asChild>
+              <DropdownMenuItem onClick={() => handleDialogType("Edit")}>
+                Edit
+              </DropdownMenuItem>
+            </DialogTrigger>
+            <AlertDialogTrigger asChild>
+              <DropdownMenuItem onClick={() => handleDialogType("Delete")}>
+                Delete
+                <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </AlertDialogTrigger>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        {/* TODO: Delete alert */}
+      </AlertDialog>
+      {/* TODO: Edit dialog */}
+    </Dialog>
+  );
+};

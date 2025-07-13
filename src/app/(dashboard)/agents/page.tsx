@@ -15,21 +15,18 @@ import AgentsView from "@/modules/agents/ui/views/agents-view";
 import { loadSearchParams } from "@/modules/agents/params";
 
 interface Props {
-  searchParams: Promise<SearchParams>
+  searchParams: Promise<SearchParams>;
 }
 
-const Page = async ({
-  searchParams
-}: Props) => {
-
-  const params = await loadSearchParams(searchParams)
+const Page = async ({ searchParams }: Props) => {
+  const params = await loadSearchParams(searchParams);
 
   const session = await auth.api.getSession({
-    headers: await headers()
-  })
+    headers: await headers(),
+  });
 
   if (!session) {
-    redirect("/sign-in")
+    redirect("/sign-in");
   }
 
   const queryClient = getQueryClient();
