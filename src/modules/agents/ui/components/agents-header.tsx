@@ -1,7 +1,7 @@
 
 "use client"
 
-import NewAgentDialog from "./new-agent-dialog"
+import { NewAgentDialog } from "./new-agent-dialog"
 import { AgentsSearchFilter } from "./agents-search-filter"
 
 
