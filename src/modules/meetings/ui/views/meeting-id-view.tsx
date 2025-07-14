@@ -3,8 +3,18 @@
 import { useTRPC } from "@/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
-import { GeneratedAvatar } from "@/components/generated-avatar";
 import { MeetingIdHeader } from "../components/meeting-id-header";
+import { ActiveState, CancelledState, MeetingStateWrapper, ProcessingState, UpcomingState } from "../components/meeting-states";
+
+
+const meetingState = {
+  upcoming: UpcomingState,
+  active: ActiveState,
+  processing: ProcessingState,
+  completed: () => <div>completed</div>,
+  cancelled: CancelledState
+}
+
 
 interface Props {
   meetingId: string;
@@ -17,21 +27,14 @@ export const MeetingIdView = ({ meetingId }: Props) => {
     trpc.meetings.getOne.queryOptions({ id: meetingId })
   );
 
+  const CurrentState = meetingState[data.status]
+
   return (
     <div className="flex flex-col flex-1 gap-y-4 px-4 py-4 md:px-8">
       <MeetingIdHeader meeting={data} />
-      <div className="bg-white rounded-lg border">
-        <div className="px-4 py-5 gap-y-5 flex flex-col col-span-5">
-          <div className="flex items-center gap-x-3">
-            <GeneratedAvatar
-              variant="botttsNeutral"
-              seed={data.name}
-              className="size-10"
-            />
-            <h2 className="font-medium text-2xl">{data.name}</h2>
-          </div>
-        </div>
-      </div>
+      <MeetingStateWrapper>
+        <CurrentState meetingId={meetingId} />
+      </MeetingStateWrapper>
     </div>
   );
 };
