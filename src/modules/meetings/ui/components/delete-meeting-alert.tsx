@@ -32,7 +32,7 @@ export const DeleteMeetingAlert = ({
         // TODO: invilidate free tier usage
 
         if (isViewPage) {
-          router.push("/meeting");
+          router.push("/meetings");
         }
       },
       onError: (error) => {
