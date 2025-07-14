@@ -32,6 +32,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import { DeleteMeetingAlert } from "./delete-meeting-alert";
+import { EditMeetingDialog } from "./edit-meeting-dialog";
 
 const statusMap = {
   upcoming: {
@@ -155,9 +157,9 @@ const ActionsRow = ({ meeting }: { meeting: MeetingGetOne }) => {
             </AlertDialogTrigger>
           </DropdownMenuContent>
         </DropdownMenu>
-        {/* <DeleteAgentAlert agentId={agent.id} /> */}
+        <DeleteMeetingAlert meetingId={meeting.id} />
       </AlertDialog>
-      {/* <EditAgentDialog agent={agent} /> */}
+      <EditMeetingDialog meeting={meeting} />
     </Dialog>
   );
 };

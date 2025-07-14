@@ -13,10 +13,10 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export const DeleteMeetingAlert = ({
-  agentId,
+  meetingId,
   isViewPage,
 }: {
-  agentId: string;
+  meetingId: string;
   isViewPage?: boolean;
 }) => {
   const router = useRouter();
@@ -24,15 +24,15 @@ export const DeleteMeetingAlert = ({
 
   const queryClient = useQueryClient();
 
-  const removeAgent = useMutation(
-    trpc.agents.remove.mutationOptions({
+  const removeMeeting = useMutation(
+    trpc.meetings.remove.mutationOptions({
       onSuccess: async () => {
-        await queryClient.invalidateQueries(trpc.agents.getMany.queryOptions());
+        await queryClient.invalidateQueries(trpc.meetings.getMany.queryOptions());
 
         // TODO: invilidate free tier usage
 
         if (isViewPage) {
-          router.push("/agents");
+          router.push("/meeting");
         }
       },
       onError: (error) => {
@@ -56,8 +56,8 @@ export const DeleteMeetingAlert = ({
         <AlertDialogCancel>Cancel</AlertDialogCancel>
         <AlertDialogAction
           onClick={() =>
-            removeAgent.mutate({
-              id: agentId,
+            removeMeeting.mutate({
+              id: meetingId,
             })
           }
         >
