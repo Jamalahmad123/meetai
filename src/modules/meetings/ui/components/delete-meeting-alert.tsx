@@ -12,7 +12,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-export const DeleteAgentAlert = ({
+export const DeleteMeetingAlert = ({
   agentId,
   isViewPage,
 }: {
@@ -45,10 +45,10 @@ export const DeleteAgentAlert = ({
     <AlertDialogContent>
       <AlertDialogHeader>
         <AlertDialogTitle>
-          Are you sure you want to delete this agent?
+          Are you sure you want to delete this meeting?
         </AlertDialogTitle>
         <AlertDialogDescription>
-          This action cannot be undone. The agent and all related data will be
+          This action cannot be undone. The meeting and all related data will be
           permanently removed.
         </AlertDialogDescription>
       </AlertDialogHeader>

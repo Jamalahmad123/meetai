@@ -4,7 +4,9 @@ import { PlusIcon } from "lucide-react"
 import { AgentForm } from "./agent-form"
 
 
-const NewAgentDialog = () => {
+export const NewAgentDialog = () => {
+
+
 
   return (
     <Dialog>
@@ -24,5 +26,3 @@ const NewAgentDialog = () => {
     </Dialog>
   )
 }
-
-export default NewAgentDialog

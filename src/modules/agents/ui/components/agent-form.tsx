@@ -17,7 +17,7 @@ type AgentFormProps = {
   initialValues?: AgentGetOne
 }
 
-export const AgentForm = ({ initialValues }: AgentFormProps) => {
+export const AgentForm = ({ initialValues, }: AgentFormProps) => {
   const trpc = useTRPC()
   const queryClient = useQueryClient()
 
@@ -32,7 +32,7 @@ export const AgentForm = ({ initialValues }: AgentFormProps) => {
 
         )
         // TODO: invalidateQueries for free tier
-        closeDialog();
+        closeDialog()
         toast.success("Agent created successfully")
       },
       onError: (error) => {
@@ -59,7 +59,7 @@ export const AgentForm = ({ initialValues }: AgentFormProps) => {
             })
           )
         }
-        closeDialog();
+        closeDialog()
         toast.success("Agent updated successfully")
       },
       onError: (error) => {
