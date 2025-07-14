@@ -144,7 +144,7 @@ const ActionsRow = ({ meeting }: { meeting: MeetingGetOne }) => {
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href={`/meeting/${meeting.id}`}>View</Link>
+              <Link href={`/meetings/${meeting.id}`}>View</Link>
             </DropdownMenuItem>
             <DialogTrigger asChild>
               <DropdownMenuItem>Edit</DropdownMenuItem>
