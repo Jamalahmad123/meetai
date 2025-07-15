@@ -19,12 +19,14 @@ import { meetingsInsertSchema, MeetingsInsetType } from "../../schema";
 import React, { useState } from "react";
 import { CommandSelect } from "@/components/command-select";
 import { closeDialog } from "@/components/ui/dialog";
+import { useRouter } from "next/navigation";
 
 type MeetingFormProps = {
   initialValues?: MeetingGetOne;
 };
 
 export const MeetingForm = ({ initialValues }: MeetingFormProps) => {
+  const router = useRouter()
   const trpc = useTRPC();
   const queryClient = useQueryClient();
 
@@ -41,9 +43,10 @@ export const MeetingForm = ({ initialValues }: MeetingFormProps) => {
 
   const createMeeting = useMutation(
     trpc.meetings.create.mutationOptions({
-      onSuccess: () => {
+      onSuccess: (data) => {
         queryClient.invalidateQueries(trpc.meetings.getMany.queryOptions());
         // TODO: invalidateQueries for free tier
+        router.push(`/meetings/${data.id}`)
         closeDialog()
         toast.success("Meeting created successfully");
       },

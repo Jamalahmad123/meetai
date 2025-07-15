@@ -10,7 +10,7 @@ export const MeetingStateWrapper = ({ children }: { children: ReactNode }) => {
   </div>
 }
 
-export const UpcomingState = () => {
+export const UpcomingState = ({ meetingId }: { meetingId: string }) => {
   return (
     <>
       <EmptyState
@@ -24,7 +24,7 @@ export const UpcomingState = () => {
           Cancel Meeting
         </Button>
         <Button asChild className="w-full lg:w-auto">
-          <Link href={`/call/${123}`}>
+          <Link href={`/call/${meetingId}`}>
             <VideoIcon />
             Start Meeting
           </Link>
